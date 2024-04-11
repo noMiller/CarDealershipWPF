@@ -1,0 +1,851 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище AudiStoreModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarsTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Photo" Type="nvarchar(max)" />
+          <Property Name="IsActual" Type="bit" />
+          <Property Name="TypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="ClientsTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="userid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MechaniсTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="50" />
+          <Property Name="Doljnost" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RepairTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="Car" Type="nvarchar(max)" />
+          <Property Name="MechanicID" Type="int" />
+          <Property Name="Communication" Type="nvarchar(max)" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="Price" Type="int" />
+        </EntityType>
+        <EntityType Name="RolesTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="SellersID" Type="int" Nullable="false" />
+          <Property Name="CarID" Type="int" Nullable="false" />
+          <Property Name="CurrentPrice" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SellersTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="100" />
+          <Property Name="JobTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TypeCarsTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UsersTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="roleid" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CarsTable_TypeCarsTable">
+          <End Role="TypeCarsTable" Type="Self.TypeCarsTable" Multiplicity="0..1" />
+          <End Role="CarsTable" Type="Self.CarsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeCarsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CarsTable">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientsTable_UsersTable">
+          <End Role="UsersTable" Type="Self.UsersTable" Multiplicity="1" />
+          <End Role="ClientsTable" Type="Self.ClientsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientsTable">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MechaniсTable_UsersTable">
+          <End Role="UsersTable" Type="Self.UsersTable" Multiplicity="1" />
+          <End Role="MechaniсTable" Type="Self.MechaniсTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MechaniсTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairTable_ClientsTable">
+          <End Role="ClientsTable" Type="Self.ClientsTable" Multiplicity="0..1" />
+          <End Role="RepairTable" Type="Self.RepairTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RepairTable">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairTable_MechaniсTable">
+          <End Role="MechaniсTable" Type="Self.MechaniсTable" Multiplicity="0..1" />
+          <End Role="RepairTable" Type="Self.RepairTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MechaniсTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RepairTable">
+              <PropertyRef Name="MechanicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairTable_StatusTable">
+          <End Role="StatusTable" Type="Self.StatusTable" Multiplicity="0..1" />
+          <End Role="RepairTable" Type="Self.RepairTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RepairTable">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesTable_CarsTable">
+          <End Role="CarsTable" Type="Self.CarsTable" Multiplicity="1" />
+          <End Role="SalesTable" Type="Self.SalesTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalesTable">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesTable_ClientsTable">
+          <End Role="ClientsTable" Type="Self.ClientsTable" Multiplicity="0..1" />
+          <End Role="SalesTable" Type="Self.SalesTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalesTable">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesTable_SellersTable">
+          <End Role="SellersTable" Type="Self.SellersTable" Multiplicity="1" />
+          <End Role="SalesTable" Type="Self.SalesTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SellersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalesTable">
+              <PropertyRef Name="SellersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SellersTable_UsersTable">
+          <End Role="UsersTable" Type="Self.UsersTable" Multiplicity="1" />
+          <End Role="SellersTable" Type="Self.SellersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SellersTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersTable_RolesTable">
+          <End Role="RolesTable" Type="Self.RolesTable" Multiplicity="1" />
+          <End Role="UsersTable" Type="Self.UsersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UsersTable">
+              <PropertyRef Name="roleid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище AudiStoreModelContainer">
+          <EntitySet Name="CarsTable" EntityType="Self.CarsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientsTable" EntityType="Self.ClientsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MechaniсTable" EntityType="Self.MechaniсTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RepairTable" EntityType="Self.RepairTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolesTable" EntityType="Self.RolesTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesTable" EntityType="Self.SalesTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SellersTable" EntityType="Self.SellersTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusTable" EntityType="Self.StatusTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeCarsTable" EntityType="Self.TypeCarsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersTable" EntityType="Self.UsersTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CarsTable_TypeCarsTable" Association="Self.FK_CarsTable_TypeCarsTable">
+            <End Role="TypeCarsTable" EntitySet="TypeCarsTable" />
+            <End Role="CarsTable" EntitySet="CarsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientsTable_UsersTable" Association="Self.FK_ClientsTable_UsersTable">
+            <End Role="UsersTable" EntitySet="UsersTable" />
+            <End Role="ClientsTable" EntitySet="ClientsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MechaniсTable_UsersTable" Association="Self.FK_MechaniсTable_UsersTable">
+            <End Role="UsersTable" EntitySet="UsersTable" />
+            <End Role="MechaniсTable" EntitySet="MechaniсTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairTable_ClientsTable" Association="Self.FK_RepairTable_ClientsTable">
+            <End Role="ClientsTable" EntitySet="ClientsTable" />
+            <End Role="RepairTable" EntitySet="RepairTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairTable_MechaniсTable" Association="Self.FK_RepairTable_MechaniсTable">
+            <End Role="MechaniсTable" EntitySet="MechaniсTable" />
+            <End Role="RepairTable" EntitySet="RepairTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairTable_StatusTable" Association="Self.FK_RepairTable_StatusTable">
+            <End Role="StatusTable" EntitySet="StatusTable" />
+            <End Role="RepairTable" EntitySet="RepairTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesTable_CarsTable" Association="Self.FK_SalesTable_CarsTable">
+            <End Role="CarsTable" EntitySet="CarsTable" />
+            <End Role="SalesTable" EntitySet="SalesTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesTable_ClientsTable" Association="Self.FK_SalesTable_ClientsTable">
+            <End Role="ClientsTable" EntitySet="ClientsTable" />
+            <End Role="SalesTable" EntitySet="SalesTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesTable_SellersTable" Association="Self.FK_SalesTable_SellersTable">
+            <End Role="SellersTable" EntitySet="SellersTable" />
+            <End Role="SalesTable" EntitySet="SalesTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SellersTable_UsersTable" Association="Self.FK_SellersTable_UsersTable">
+            <End Role="UsersTable" EntitySet="UsersTable" />
+            <End Role="SellersTable" EntitySet="SellersTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersTable_RolesTable" Association="Self.FK_UsersTable_RolesTable">
+            <End Role="RolesTable" EntitySet="RolesTable" />
+            <End Role="UsersTable" EntitySet="UsersTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AudiStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CarsTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SalesTable" Relationship="Self.FK_SalesTable_CarsTable" FromRole="CarsTable" ToRole="SalesTable" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActual" Type="Boolean" />
+          <Property Name="TypeID" Type="Int32" />
+          <NavigationProperty Name="TypeCarsTable" Relationship="AudiStoreModel.FK_CarsTable_TypeCarsTable" FromRole="CarsTable" ToRole="TypeCarsTable" />
+        </EntityType>
+        <EntityType Name="ClientsTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UsersTable" Relationship="Self.FK_ClientsTable_UsersTable" FromRole="ClientsTable" ToRole="UsersTable" />
+          <NavigationProperty Name="SalesTable" Relationship="Self.FK_SalesTable_ClientsTable" FromRole="ClientsTable" ToRole="SalesTable" />
+          <NavigationProperty Name="RepairTable" Relationship="AudiStoreModel.FK_RepairTable_ClientsTable" FromRole="ClientsTable" ToRole="RepairTable" />
+        </EntityType>
+        <EntityType Name="RolesTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UsersTable" Relationship="Self.FK_UsersTable_RolesTable" FromRole="RolesTable" ToRole="UsersTable" />
+        </EntityType>
+        <EntityType Name="SalesTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="SellersID" Type="Int32" Nullable="false" />
+          <Property Name="CarID" Type="Int32" Nullable="false" />
+          <Property Name="CurrentPrice" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CarsTable" Relationship="Self.FK_SalesTable_CarsTable" FromRole="SalesTable" ToRole="CarsTable" />
+          <NavigationProperty Name="ClientsTable" Relationship="Self.FK_SalesTable_ClientsTable" FromRole="SalesTable" ToRole="ClientsTable" />
+          <NavigationProperty Name="SellersTable" Relationship="Self.FK_SalesTable_SellersTable" FromRole="SalesTable" ToRole="SellersTable" />
+        </EntityType>
+        <EntityType Name="SellersTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesTable" Relationship="Self.FK_SalesTable_SellersTable" FromRole="SellersTable" ToRole="SalesTable" />
+          <NavigationProperty Name="UsersTable" Relationship="Self.FK_SellersTable_UsersTable" FromRole="SellersTable" ToRole="UsersTable" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UsersTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="roleid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClientsTable" Relationship="Self.FK_ClientsTable_UsersTable" FromRole="UsersTable" ToRole="ClientsTable" />
+          <NavigationProperty Name="RolesTable" Relationship="Self.FK_UsersTable_RolesTable" FromRole="UsersTable" ToRole="RolesTable" />
+          <NavigationProperty Name="SellersTable" Relationship="Self.FK_SellersTable_UsersTable" FromRole="UsersTable" ToRole="SellersTable" />
+          <NavigationProperty Name="MechaniсTable" Relationship="AudiStoreModel.FK_MechaniсTable_UsersTable" FromRole="UsersTable" ToRole="MechaniсTable" />
+        </EntityType>
+        <Association Name="FK_SalesTable_CarsTable">
+          <End Role="CarsTable" Type="Self.CarsTable" Multiplicity="1" />
+          <End Role="SalesTable" Type="Self.SalesTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalesTable">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientsTable_UsersTable">
+          <End Role="UsersTable" Type="Self.UsersTable" Multiplicity="1" />
+          <End Role="ClientsTable" Type="Self.ClientsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientsTable">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesTable_ClientsTable">
+          <End Role="ClientsTable" Type="Self.ClientsTable" Multiplicity="0..1" />
+          <End Role="SalesTable" Type="Self.SalesTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalesTable">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersTable_RolesTable">
+          <End Role="RolesTable" Type="Self.RolesTable" Multiplicity="1" />
+          <End Role="UsersTable" Type="Self.UsersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UsersTable">
+              <PropertyRef Name="roleid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesTable_SellersTable">
+          <End Role="SellersTable" Type="Self.SellersTable" Multiplicity="1" />
+          <End Role="SalesTable" Type="Self.SalesTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SellersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalesTable">
+              <PropertyRef Name="SellersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SellersTable_UsersTable">
+          <End Role="UsersTable" Type="Self.UsersTable" Multiplicity="1" />
+          <End Role="SellersTable" Type="Self.SellersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SellersTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AudiStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarsTable" EntityType="Self.CarsTable" />
+          <EntitySet Name="ClientsTable" EntityType="Self.ClientsTable" />
+          <EntitySet Name="RolesTable" EntityType="Self.RolesTable" />
+          <EntitySet Name="SalesTable" EntityType="Self.SalesTable" />
+          <EntitySet Name="SellersTable" EntityType="Self.SellersTable" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="UsersTable" EntityType="Self.UsersTable" />
+          <AssociationSet Name="FK_SalesTable_CarsTable" Association="Self.FK_SalesTable_CarsTable">
+            <End Role="CarsTable" EntitySet="CarsTable" />
+            <End Role="SalesTable" EntitySet="SalesTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientsTable_UsersTable" Association="Self.FK_ClientsTable_UsersTable">
+            <End Role="UsersTable" EntitySet="UsersTable" />
+            <End Role="ClientsTable" EntitySet="ClientsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesTable_ClientsTable" Association="Self.FK_SalesTable_ClientsTable">
+            <End Role="ClientsTable" EntitySet="ClientsTable" />
+            <End Role="SalesTable" EntitySet="SalesTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersTable_RolesTable" Association="Self.FK_UsersTable_RolesTable">
+            <End Role="RolesTable" EntitySet="RolesTable" />
+            <End Role="UsersTable" EntitySet="UsersTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesTable_SellersTable" Association="Self.FK_SalesTable_SellersTable">
+            <End Role="SellersTable" EntitySet="SellersTable" />
+            <End Role="SalesTable" EntitySet="SalesTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SellersTable_UsersTable" Association="Self.FK_SellersTable_UsersTable">
+            <End Role="UsersTable" EntitySet="UsersTable" />
+            <End Role="SellersTable" EntitySet="SellersTable" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(AudiStoreModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(AudiStoreModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="MechaniсTable" EntityType="AudiStoreModel.MechaniсTable" />
+          <AssociationSet Name="FK_MechaniсTable_UsersTable" Association="AudiStoreModel.FK_MechaniсTable_UsersTable">
+            <End Role="UsersTable" EntitySet="UsersTable" />
+            <End Role="MechaniсTable" EntitySet="MechaniсTable" />
+          </AssociationSet>
+          <EntitySet Name="RepairTable" EntityType="AudiStoreModel.RepairTable" />
+          <EntitySet Name="StatusTable" EntityType="AudiStoreModel.StatusTable" />
+          <AssociationSet Name="FK_RepairTable_ClientsTable" Association="AudiStoreModel.FK_RepairTable_ClientsTable">
+            <End Role="ClientsTable" EntitySet="ClientsTable" />
+            <End Role="RepairTable" EntitySet="RepairTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairTable_MechaniсTable" Association="AudiStoreModel.FK_RepairTable_MechaniсTable">
+            <End Role="MechaniсTable" EntitySet="MechaniсTable" />
+            <End Role="RepairTable" EntitySet="RepairTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairTable_StatusTable" Association="AudiStoreModel.FK_RepairTable_StatusTable">
+            <End Role="StatusTable" EntitySet="StatusTable" />
+            <End Role="RepairTable" EntitySet="RepairTable" />
+          </AssociationSet>
+          <EntitySet Name="TypeCarsTable" EntityType="AudiStoreModel.TypeCarsTable" />
+          <AssociationSet Name="FK_CarsTable_TypeCarsTable" Association="AudiStoreModel.FK_CarsTable_TypeCarsTable">
+            <End Role="TypeCarsTable" EntitySet="TypeCarsTable" />
+            <End Role="CarsTable" EntitySet="CarsTable" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="MechaniсTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Doljnost" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UsersTable" Relationship="AudiStoreModel.FK_MechaniсTable_UsersTable" FromRole="MechaniсTable" ToRole="UsersTable" />
+          <NavigationProperty Name="RepairTable" Relationship="AudiStoreModel.FK_RepairTable_MechaniсTable" FromRole="MechaniсTable" ToRole="RepairTable" />
+        </EntityType>
+        <Association Name="FK_MechaniсTable_UsersTable">
+          <End Type="AudiStoreModel.UsersTable" Role="UsersTable" Multiplicity="1" />
+          <End Type="AudiStoreModel.MechaniсTable" Role="MechaniсTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MechaniсTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RepairTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="Car" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MechanicID" Type="Int32" />
+          <Property Name="Communication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="Price" Type="Int32" />
+          <NavigationProperty Name="ClientsTable" Relationship="AudiStoreModel.FK_RepairTable_ClientsTable" FromRole="RepairTable" ToRole="ClientsTable" />
+          <NavigationProperty Name="MechaniсTable" Relationship="AudiStoreModel.FK_RepairTable_MechaniсTable" FromRole="RepairTable" ToRole="MechaniсTable" />
+          <NavigationProperty Name="StatusTable" Relationship="AudiStoreModel.FK_RepairTable_StatusTable" FromRole="RepairTable" ToRole="StatusTable" />
+        </EntityType>
+        <EntityType Name="StatusTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RepairTable" Relationship="AudiStoreModel.FK_RepairTable_StatusTable" FromRole="StatusTable" ToRole="RepairTable" />
+        </EntityType>
+        <Association Name="FK_RepairTable_ClientsTable">
+          <End Type="AudiStoreModel.ClientsTable" Role="ClientsTable" Multiplicity="0..1" />
+          <End Type="AudiStoreModel.RepairTable" Role="RepairTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RepairTable">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairTable_MechaniсTable">
+          <End Type="AudiStoreModel.MechaniсTable" Role="MechaniсTable" Multiplicity="0..1" />
+          <End Type="AudiStoreModel.RepairTable" Role="RepairTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MechaniсTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RepairTable">
+              <PropertyRef Name="MechanicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairTable_StatusTable">
+          <End Type="AudiStoreModel.StatusTable" Role="StatusTable" Multiplicity="0..1" />
+          <End Type="AudiStoreModel.RepairTable" Role="RepairTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RepairTable">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TypeCarsTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CarsTable" Relationship="AudiStoreModel.FK_CarsTable_TypeCarsTable" FromRole="TypeCarsTable" ToRole="CarsTable" />
+        </EntityType>
+        <Association Name="FK_CarsTable_TypeCarsTable">
+          <End Type="AudiStoreModel.TypeCarsTable" Role="TypeCarsTable" Multiplicity="0..1" />
+          <End Type="AudiStoreModel.CarsTable" Role="CarsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeCarsTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CarsTable">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AudiStoreModelContainer" CdmEntityContainer="AudiStoreEntities">
+          <EntitySetMapping Name="CarsTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.CarsTable">
+              <MappingFragment StoreEntitySet="CarsTable">
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="IsActual" ColumnName="IsActual" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientsTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.ClientsTable">
+              <MappingFragment StoreEntitySet="ClientsTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolesTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.RolesTable">
+              <MappingFragment StoreEntitySet="RolesTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.SalesTable">
+              <MappingFragment StoreEntitySet="SalesTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="SellersID" ColumnName="SellersID" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SellersTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.SellersTable">
+              <MappingFragment StoreEntitySet="SellersTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AudiStoreModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.UsersTable">
+              <MappingFragment StoreEntitySet="UsersTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="roleid" ColumnName="roleid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище AudiStoreModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище AudiStoreModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище AudiStoreModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище AudiStoreModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AudiStoreModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище AudiStoreModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AudiStoreModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище AudiStoreModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище AudiStoreModel.sp_upgraddiagrams" />
+          <EntitySetMapping Name="MechaniсTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.MechaniсTable">
+              <MappingFragment StoreEntitySet="MechaniсTable">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Doljnost" ColumnName="Doljnost" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RepairTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.RepairTable">
+              <MappingFragment StoreEntitySet="RepairTable">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Communication" ColumnName="Communication" />
+                <ScalarProperty Name="MechanicID" ColumnName="MechanicID" />
+                <ScalarProperty Name="Car" ColumnName="Car" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.StatusTable">
+              <MappingFragment StoreEntitySet="StatusTable">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeCarsTable">
+            <EntityTypeMapping TypeName="AudiStoreModel.TypeCarsTable">
+              <MappingFragment StoreEntitySet="TypeCarsTable">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
